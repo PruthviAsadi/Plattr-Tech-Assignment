@@ -1,0 +1,16 @@
+/* src/components/Timer.css */
+.timer {
+    font-weight: bold;
+    color: #ff5c5c;
+    font-size: 0.9em;
+    text-align: right;
+    padding: 10px 0;
+}
+
+@media (max-width: 600px) {
+    .timer {
+        font-size: 0.8em;
+        text-align: center;
+        padding: 5px 0;
+    }
+}

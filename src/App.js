@@ -1,25 +1,45 @@
-import logo from './logo.svg';
+// src/App.js
+import React, { useState, useEffect } from 'react';
+import Quiz from './components/Quiz';
+import Result from './components/Result';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [quizComplete, setQuizComplete] = useState(false);
+    const [score, setScore] = useState(0);
+    const [answers, setAnswers] = useState([]);
+
+    const handleQuizComplete = (finalScore, finalAnswers) => {
+        setScore(finalScore);
+        setAnswers(finalAnswers);
+        setQuizComplete(true);
+
+        // Save the high score to local storage
+        const highScore = localStorage.getItem("highScore") || 0;
+        if (finalScore > highScore) {
+            localStorage.setItem("highScore", finalScore);
+        }
+    };
+
+    const handleRestart = () => {
+        setQuizComplete(false);
+        setScore(0);
+        setAnswers([]);
+    };
+
+    return (
+        <div className="app">
+            <h1>Quiz Application</h1>
+            {quizComplete ? (
+                <Result score={score} totalQuestions={5} answers={answers} onRestart={handleRestart} />
+            ) : (
+                <Quiz onQuizComplete={handleQuizComplete} />
+            )}
+            <div className="high-score">
+                High Score: {localStorage.getItem("highScore") || 0}
+            </div>
+        </div>
+    );
+};
 
 export default App;
